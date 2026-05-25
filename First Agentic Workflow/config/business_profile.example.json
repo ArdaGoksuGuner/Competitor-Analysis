@@ -1,0 +1,12 @@
+{
+  "business_name": "Your Company Name",
+  "website": "https://yourcompany.com",
+  "industry": "Your Industry",
+  "description": "A short description of what your company does and who it serves.",
+  "target_market": "Who your customers are — be specific about demographics, needs, and context.",
+  "key_products_services": [
+    "Product or service 1",
+    "Product or service 2"
+  ],
+  "known_competitors": []
+}
