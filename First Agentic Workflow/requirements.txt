@@ -1,0 +1,6 @@
+anthropic
+tavily-python
+weasyprint
+jinja2
+python-dotenv
+pillow

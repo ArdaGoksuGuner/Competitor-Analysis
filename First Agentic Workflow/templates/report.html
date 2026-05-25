@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* ── Lumen Brand Variables ── */
+  :root {
+    --primary:       #D24B2D;
+    --secondary:     #691E1E;
+    --accent:        #E1961E;
+    --light-accent:  #F0B45A;
+    --bg:            #F5EDE0;
+    --body-text:     #2D2D2D;
+    --label-text:    #535476;
+    --white:         #FFFFFF;
+    --divider:       #D9C9B8;
+  }
+
+  /* ── Page Setup ── */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  @page :first {
+    margin: 0;
+  }
+  @page content {
+    margin: 20mm 18mm 22mm 18mm;
+    @top-left {
+      content: element(header);
+    }
+    @bottom-center {
+      content: element(footer);
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: var(--body-text);
+    background: var(--white);
+    line-height: 1.55;
+  }
+
+  /* ── Cover Page ── */
+  .cover {
+    width: 210mm;
+    height: 297mm;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18mm;
+    page-break-after: always;
+  }
+
+  .cover-logo {
+    width: 120px;
+  }
+
+  .cover-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cover-label {
+    font-size: 10pt;
+    color: var(--label-text);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .cover-title {
+    font-size: 34pt;
+    font-weight: bold;
+    color: var(--primary);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .cover-subtitle {
+    font-size: 14pt;
+    color: var(--secondary);
+    margin-bottom: 32px;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .cover-meta {
+    font-size: 10pt;
+    color: var(--label-text);
+    line-height: 2;
+  }
+
+  .cover-meta strong {
+    color: var(--body-text);
+  }
+
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .cover-tagline {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 9pt;
+    color: var(--label-text);
+    letter-spacing: 1px;
+  }
+
+  .cover-date {
+    font-size: 9pt;
+    color: var(--label-text);
+  }
+
+  /* ── Running Header (content pages) ── */
+  .page-header {
+    position: running(header);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+    width: 100%;
+  }
+
+  .page-header img {
+    height: 28px;
+  }
+
+  .page-header-title {
+    font-size: 8pt;
+    color: var(--label-text);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── Running Footer (content pages) ── */
+  .page-footer {
+    position: running(footer);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--divider);
+    padding-top: 5px;
+    width: 100%;
+  }
+
+  .page-footer-tagline {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 7.5pt;
+    color: var(--label-text);
+    letter-spacing: 0.5px;
+  }
+
+  .page-footer-page::after {
+    content: counter(page);
+    font-size: 8pt;
+    color: var(--label-text);
+  }
+
+  /* ── Content Pages ── */
+  .content-pages {
+    page: content;
+    padding: 0;
+  }
+
+  /* ── Section Headings ── */
+  h1 {
+    font-size: 18pt;
+    color: var(--primary);
+    font-weight: bold;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 3px solid var(--secondary);
+  }
+
+  h2 {
+    font-size: 13pt;
+    color: var(--secondary);
+    font-weight: bold;
+    margin: 18px 0 8px;
+  }
+
+  h3 {
+    font-size: 10.5pt;
+    color: var(--label-text);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 14px 0 6px;
+  }
+
+  p {
+    margin-bottom: 8px;
+  }
+
+  ul {
+    margin: 6px 0 10px 20px;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+
+  /* ── Executive Summary Box ── */
+  .exec-summary {
+    background: var(--bg);
+    border-left: 5px solid var(--primary);
+    padding: 14px 16px;
+    margin: 12px 0 20px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .exec-summary p {
+    font-size: 10.5pt;
+    color: var(--body-text);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── Competitor Profile Cards ── */
+  .competitor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .competitor-card {
+    flex: 1 1 45%;
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    padding: 12px 14px;
+    background: var(--white);
+  }
+
+  .competitor-card-name {
+    font-size: 11pt;
+    font-weight: bold;
+    color: var(--secondary);
+    margin-bottom: 4px;
+  }
+
+  .competitor-card-oneliner {
+    font-size: 9pt;
+    color: var(--body-text);
+    margin-bottom: 8px;
+  }
+
+  .threat-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .threat-high   { background: #FBEAEA; color: #8B1A1A; border: 1px solid #D24B2D; }
+  .threat-medium { background: #FEF3E2; color: #7A4B00; border: 1px solid #E1961E; }
+  .threat-low    { background: #EAF4EA; color: #1A4D1A; border: 1px solid #4CAF50; }
+
+  .threat-reasoning {
+    font-size: 8.5pt;
+    color: var(--label-text);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* ── Opportunity Callout Cards ── */
+  .opportunity-card {
+    background: #FEF8EC;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+  }
+
+  .opportunity-card h3 {
+    color: #7A4B00;
+    margin: 0 0 4px;
+    font-size: 10pt;
+  }
+
+  .opportunity-card .priority-badge {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: bold;
+    padding: 1px 7px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .priority-high   { background: var(--accent); color: var(--white); }
+  .priority-medium { background: var(--light-accent); color: var(--secondary); }
+  .priority-low    { background: var(--divider); color: var(--label-text); }
+
+  .opportunity-card .evidence {
+    font-size: 8.5pt;
+    color: var(--label-text);
+    margin: 4px 0;
+  }
+
+  .opportunity-card .action {
+    font-size: 9pt;
+    color: var(--body-text);
+    font-weight: bold;
+    margin-top: 6px;
+  }
+
+  /* ── Threat Cards ── */
+  .threat-card {
+    background: #FDF0F0;
+    border-left: 4px solid var(--primary);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+  }
+
+  .threat-card h3 {
+    color: var(--secondary);
+    margin: 0 0 4px;
+    font-size: 10pt;
+  }
+
+  .urgency-badge {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: bold;
+    padding: 1px 7px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .urgency-immediate { background: var(--primary); color: var(--white); }
+  .urgency-near-term { background: var(--accent); color: var(--white); }
+  .urgency-watch     { background: var(--divider); color: var(--label-text); }
+
+  .threat-source {
+    font-size: 8.5pt;
+    color: var(--label-text);
+    margin-top: 4px;
+  }
+
+  /* ── Recommendation Cards ── */
+  .rec-card {
+    background: #F0F0F8;
+    border-left: 4px solid var(--label-text);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+  }
+
+  .rec-card h3 {
+    color: var(--label-text);
+    margin: 0 0 4px;
+    font-size: 10pt;
+  }
+
+  .effort-badge {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: bold;
+    padding: 1px 7px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .effort-quick-win          { background: #D0EED0; color: #1A4D1A; }
+  .effort-medium-effort      { background: #D8D8F0; color: #2D2D6E; }
+  .effort-strategic-initiative { background: #2D2D2D; color: var(--white); }
+
+  .rec-rationale {
+    font-size: 8.5pt;
+    color: var(--label-text);
+    margin-top: 4px;
+  }
+
+  /* ── Strengths Theme Items ── */
+  .strength-item {
+    border-bottom: 1px solid var(--divider);
+    padding: 10px 0;
+  }
+
+  .strength-item:last-child {
+    border-bottom: none;
+  }
+
+  .strength-theme {
+    font-weight: bold;
+    color: var(--secondary);
+    font-size: 10pt;
+    margin-bottom: 3px;
+  }
+
+  .strength-detail {
+    font-size: 9pt;
+    color: var(--body-text);
+    margin-bottom: 3px;
+  }
+
+  .strength-implication {
+    font-size: 8.5pt;
+    color: var(--label-text);
+    font-style: italic;
+  }
+
+  /* ── Section Divider ── */
+  .section-rule {
+    border: none;
+    border-top: 2px solid var(--secondary);
+    margin: 20px 0 16px;
+    opacity: 0.3;
+  }
+
+  /* ── Page Break ── */
+  .page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     COVER PAGE
+     ═══════════════════════════════════════════════ -->
+<div class="cover">
+  <div>
+    <img class="cover-logo" src="data:image/png;base64,{{ logo_b64 }}" alt="Lumen">
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-label">Competitive Intelligence Report</div>
+    <div class="cover-title">Competitor<br>Analysis</div>
+    <div class="cover-subtitle">{{ profile.business_name }}</div>
+    <div class="cover-divider"></div>
+    <div class="cover-meta">
+      <div><strong>Industry:</strong> {{ profile.industry }}</div>
+      <div><strong>Competitors analyzed:</strong> {{ competitors | length }}</div>
+      <div><strong>Report date:</strong> {{ generated_at }}</div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-tagline">{{ brand.tagline }}</div>
+    <div class="cover-date">{{ generated_at }}</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     RUNNING HEADER & FOOTER (appear on content pages)
+     ═══════════════════════════════════════════════ -->
+<div class="page-header">
+  <img src="data:image/png;base64,{{ logo_b64 }}" alt="Lumen">
+  <span class="page-header-title">Competitor Analysis — {{ profile.business_name }} — {{ generated_at }}</span>
+</div>
+
+<div class="page-footer">
+  <span class="page-footer-tagline">{{ brand.tagline }}</span>
+  <span class="page-footer-page"></span>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     CONTENT PAGES
+     ═══════════════════════════════════════════════ -->
+<div class="content-pages">
+
+  <!-- Executive Summary -->
+  <h1>Executive Summary</h1>
+  <div class="exec-summary">
+    <p>{{ analysis.executive_summary }}</p>
+  </div>
+
+  <!-- Market Landscape -->
+  <h1>Market Landscape</h1>
+  {% for para in analysis.market_landscape.split('\n\n') %}
+    <p>{{ para }}</p>
+  {% endfor %}
+
+  <!-- Competitor Profiles -->
+  <div class="page-break"></div>
+  <h1>Competitor Profiles</h1>
+  <p style="color: var(--label-text); font-size: 9pt; margin-bottom: 14px;">
+    Threat levels are assessed relative to {{ profile.business_name }}'s current position and offerings.
+  </p>
+
+  <div class="competitor-grid">
+    {% for c in analysis.competitor_profiles %}
+    <div class="competitor-card">
+      <div class="competitor-card-name">{{ c.name }}</div>
+      <div class="competitor-card-oneliner">{{ c.one_liner }}</div>
+      <span class="threat-badge threat-{{ c.threat_level | lower }}">
+        {{ c.threat_level | upper }} THREAT
+      </span>
+      <div class="threat-reasoning">{{ c.threat_reasoning }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- What Competitors Do Well -->
+  <div class="page-break"></div>
+  <h1>What Competitors Do Well</h1>
+  <p style="color: var(--label-text); font-size: 9pt; margin-bottom: 12px;">
+    Patterns and strengths observed across the competitive landscape — and what they mean for {{ profile.business_name }}.
+  </p>
+
+  {% for item in analysis.what_competitors_do_well %}
+  <div class="strength-item">
+    <div class="strength-theme">{{ item.theme }}</div>
+    <div class="strength-detail">{{ item.detail }}</div>
+    <div class="strength-implication">→ {{ item.implication_for_us }}</div>
+  </div>
+  {% endfor %}
+
+  <!-- Gaps & Opportunities -->
+  <div class="page-break"></div>
+  <h1>Gaps &amp; Opportunities</h1>
+  <p style="color: var(--label-text); font-size: 9pt; margin-bottom: 12px;">
+    Areas where the market is underserved and {{ profile.business_name }} can move to capture advantage.
+  </p>
+
+  {% for opp in analysis.gaps_and_opportunities %}
+  <div class="opportunity-card">
+    <h3>{{ opp.opportunity }}</h3>
+    <span class="priority-badge priority-{{ opp.priority | lower }}">{{ opp.priority }} priority</span>
+    <div class="evidence">{{ opp.evidence }}</div>
+    <div class="action">Action: {{ opp.suggested_action }}</div>
+  </div>
+  {% endfor %}
+
+  <!-- Threats -->
+  <div class="page-break"></div>
+  <h1>Threats to Watch</h1>
+  <p style="color: var(--label-text); font-size: 9pt; margin-bottom: 12px;">
+    Competitive risks that {{ profile.business_name }} needs to monitor or act on.
+  </p>
+
+  {% for threat in analysis.threats %}
+  <div class="threat-card">
+    <h3>{{ threat.threat }}</h3>
+    <span class="urgency-badge urgency-{{ threat.urgency | lower | replace(' ', '-') }}">
+      {{ threat.urgency | upper }}
+    </span>
+    <div class="threat-source">Source: {{ threat.source }}</div>
+  </div>
+  {% endfor %}
+
+  <!-- Recommendations -->
+  <div class="page-break"></div>
+  <h1>Recommendations</h1>
+  <p style="color: var(--label-text); font-size: 9pt; margin-bottom: 12px;">
+    Specific actions for {{ profile.business_name }} based on the competitive analysis above.
+  </p>
+
+  {% for rec in analysis.recommendations %}
+  <div class="rec-card">
+    <h3>{{ rec.recommendation }}</h3>
+    <span class="effort-badge effort-{{ rec.effort | lower | replace(' ', '-') }}">{{ rec.effort }}</span>
+    <div class="rec-rationale">{{ rec.rationale }}</div>
+  </div>
+  {% endfor %}
+
+</div><!-- /content-pages -->
+</body>
+</html>
