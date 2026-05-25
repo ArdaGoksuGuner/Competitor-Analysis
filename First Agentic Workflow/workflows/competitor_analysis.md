@@ -100,7 +100,10 @@ Tell the user the exact file path when done.
 | Tavily rate limit (429) | Too many searches too fast | Wait 10s, retry. If persistent, add `time.sleep(1)` between searches |
 | `no research_*.json files found` | Step 2 skipped or failed | Re-run Step 2 for each competitor |
 | WeasyPrint `OSError` (font) | Font not found on system | Arial is a system font on Mac/Windows; on Linux install `ttf-mscorefonts-installer` |
+| WeasyPrint `OSError: cannot load libgobject-2.0-0` | Homebrew pango not in dyld path | Run with `DYLD_LIBRARY_PATH=/opt/homebrew/lib python3.11 tools/generate_pdf.py ...` |
+| `ModuleNotFoundError: No module named 'weasyprint'` | Wrong Python env (e.g. conda default) | Use `python3.11` explicitly — weasyprint is installed there |
 | PDF is blank / missing logo | Logo path wrong | Check `config/logo.png` exists; re-run setup if needed |
+| `analyze_competitors.py` JSON truncation error | `max_tokens=4096` too low for full output | Fixed in tool: now uses `max_tokens=8192` |
 
 ---
 
