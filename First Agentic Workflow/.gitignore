@@ -9,6 +9,14 @@ token.json
 # Temporary processing files
 .tmp/
 
+# Company-specific config (use *.example.json as templates)
+config/business_profile.json
+config/brand.json
+config/logo.png
+
+# Generated reports
+reports/
+
 # Python
 __pycache__/
 *.pyc
