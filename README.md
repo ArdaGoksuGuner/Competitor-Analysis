@@ -1,50 +1,51 @@
 # Competitor Analysis — WAT Framework
 
-An AI-powered competitive intelligence system that researches competitors, synthesizes strategic insights, and produces a branded PDF report — fully automated and runnable on demand.
+An AI-powered competitive intelligence system that researches competitors, synthesizes strategic insights, and produces a **branded PDF report tailored to your company** — fully automated and runnable on demand.
+
+You configure it once with your business profile and brand guidelines. It discovers your competitors, researches them in depth, and delivers a polished strategic report specific to your business — not a generic template.
 
 Built on the **WAT framework** (Workflows · Agents · Tools): deterministic Python scripts handle execution, Claude handles reasoning.
 
 ---
 
-## What it does
+## What it produces
 
-1. **Discovers** the top competitors for your business using web search
-2. **Researches** each competitor across 5 dimensions: products & pricing, recent news, marketing positioning, customer sentiment, and company signals
-3. **Synthesizes** a strategic analysis with opportunities, threats, and recommendations
-4. **Generates** a branded PDF report ready to share
-
-A full run takes **5–15 minutes** and produces a report like this:
+A branded PDF report with 7 sections, specific to your company:
 
 | Section | What's inside |
 |---|---|
-| Executive Summary | Competitive landscape in 3–5 sentences |
-| Market Landscape | How the market is structured and who the players are |
+| Executive Summary | Your competitive position in 3–5 sentences |
+| Market Landscape | How your market is structured and who the key players are |
 | Competitor Profiles | Threat-level cards for each competitor |
-| What Competitors Do Well | Themes with implications for your business |
-| Gaps & Opportunities | Specific gaps with priority levels and suggested actions |
+| What Competitors Do Well | Themes with direct implications for your business |
+| Gaps & Opportunities | Specific market gaps, prioritized, with suggested actions |
 | Threats to Watch | Immediate, near-term, and watch-list threats |
 | Recommendations | Actionable steps tied to competitive evidence |
+
+A full run takes **5–15 minutes** depending on the number of competitors.
 
 ---
 
 ## Architecture
 
 ```
-workflows/          # Markdown SOPs — what to do and how
-tools/              # Python scripts — deterministic execution
-config/             # Business profile and brand settings
-reports/            # Generated PDF reports (output)
-.tmp/               # Intermediate files (regenerated each run)
+First Agentic Workflow/
+├── workflows/      # Markdown SOPs — what to do and how
+├── tools/          # Python scripts — deterministic execution
+├── config/         # Your business profile and brand settings
+├── templates/      # HTML template for the PDF report
+├── reports/        # Generated PDF reports (output)
+└── .tmp/           # Intermediate files (regenerated each run)
 ```
 
 **Tools:**
 
 | Script | What it does |
 |---|---|
-| `setup_profile.py` | Interactive setup for business profile and brand config |
-| `discover_competitors.py` | Uses Tavily search + Claude to find top competitors |
-| `research_competitor.py` | Deep-dives a single competitor across 5 search angles |
-| `analyze_competitors.py` | Synthesizes all research into structured strategic analysis |
+| `setup_profile.py` | One-time interactive setup — enter your business details and brand |
+| `discover_competitors.py` | Finds your top competitors using web search + Claude |
+| `research_competitor.py` | Deep-dives a single competitor across 5 dimensions |
+| `analyze_competitors.py` | Synthesizes all research into a structured strategic analysis |
 | `generate_pdf.py` | Renders a branded PDF report from the analysis |
 
 ---
@@ -56,7 +57,7 @@ reports/            # Generated PDF reports (output)
 ```bash
 git clone https://github.com/ArdaGoksuGuner/Competitor-Analysis.git
 cd Competitor-Analysis
-pip install -r requirements.txt
+pip install -r "First Agentic Workflow/requirements.txt"
 ```
 
 > On macOS, WeasyPrint requires Pango. Install via Homebrew:
@@ -64,10 +65,10 @@ pip install -r requirements.txt
 > brew install pango
 > ```
 
-**2. Add API keys**
+**2. Add your API keys**
 
 ```bash
-cp .env.example .env
+cp "First Agentic Workflow/.env.example" "First Agentic Workflow/.env"
 ```
 
 Edit `.env` and fill in:
@@ -79,42 +80,46 @@ TAVILY_API_KEY=your_key_here
 
 Get your keys at [console.anthropic.com](https://console.anthropic.com) and [tavily.com](https://tavily.com).
 
-**3. Set up your business profile**
+**3. Configure your business profile**
 
 ```bash
-python tools/setup_profile.py --interactive
+python "First Agentic Workflow/tools/setup_profile.py" --interactive
 ```
 
-This creates `config/business_profile.json` and `config/brand.json`.
+You'll be prompted for your business name, industry, target market, key offerings, brand colors, and logo. This is what makes every report specific to your company — not a generic analysis.
 
 ---
 
-## Running a competitor analysis
+## Running an analysis
 
 **Step 1 — Discover competitors**
 
 ```bash
-python tools/discover_competitors.py --profile config/business_profile.json --num-competitors 5
+python "First Agentic Workflow/tools/discover_competitors.py" \
+  --profile "First Agentic Workflow/config/business_profile.json" \
+  --num-competitors 5
 ```
 
-Review the list. Edit `.tmp/competitors.json` if you want to swap any out.
+Review the list. Edit `.tmp/competitors.json` to swap any out before proceeding.
 
 **Step 2 — Research each competitor**
 
-Run sequentially (one at a time) to avoid rate limits:
+Run sequentially to avoid API rate limits:
 
 ```bash
-python tools/research_competitor.py \
+python "First Agentic Workflow/tools/research_competitor.py" \
   --name "Competitor Name" \
   --url "https://competitor.com" \
   --output ".tmp/research_competitorname.json"
 ```
 
+Repeat for each competitor. Each call runs 5 targeted searches and takes ~30–60 seconds.
+
 **Step 3 — Synthesize the analysis**
 
 ```bash
-python tools/analyze_competitors.py \
-  --profile config/business_profile.json \
+python "First Agentic Workflow/tools/analyze_competitors.py" \
+  --profile "First Agentic Workflow/config/business_profile.json" \
   --research-dir .tmp \
   --output .tmp/analysis.json
 ```
@@ -122,21 +127,21 @@ python tools/analyze_competitors.py \
 **Step 4 — Generate the PDF**
 
 ```bash
-DYLD_LIBRARY_PATH=/opt/homebrew/lib python3.11 tools/generate_pdf.py \
+DYLD_LIBRARY_PATH=/opt/homebrew/lib python3.11 "First Agentic Workflow/tools/generate_pdf.py" \
   --analysis .tmp/analysis.json \
-  --brand config/brand.json \
-  --profile config/business_profile.json
+  --brand "First Agentic Workflow/config/brand.json" \
+  --profile "First Agentic Workflow/config/business_profile.json"
 ```
 
-Output: `reports/competitor_analysis_YYYY-MM-DD.pdf`
+Output: `First Agentic Workflow/reports/competitor_analysis_YYYY-MM-DD.pdf`
 
 ---
 
 ## Requirements
 
 - Python 3.11+
-- [Anthropic API key](https://console.anthropic.com) (Claude Sonnet)
-- [Tavily API key](https://tavily.com) (web search)
+- [Anthropic API key](https://console.anthropic.com) — Claude Sonnet for reasoning and synthesis
+- [Tavily API key](https://tavily.com) — web search for competitor research
 - macOS/Linux with Pango installed (for PDF generation)
 
 ---
